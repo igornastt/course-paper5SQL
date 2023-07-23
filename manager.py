@@ -93,15 +93,3 @@ class DBManager:
             vacancy_list.extend(cursor.fetchall())
 
         return vacancy_list
-
-
-# db_manager = DBManager(host='your_host', port='your_port', database='your_database', user='your_user',
-#                        password='your_password')
-#
-# companies_and_vacancies_count = db_manager.get_companies_and_vacancies_count()
-# all_vacancies = db_manager.get_all_vacancies()
-# avg_salary = db_manager.get_avg_salary()
-# vacancies_with_higher_salary = db_manager.get_vacancies_with_higher_salary()
-# vacancies_with_keyword = db_manager.get_vacancies_with_keyword('python')
-#
-# db_manager.close()
