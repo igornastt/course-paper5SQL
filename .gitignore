@@ -67,3 +67,4 @@ dmypy.json
 .pyre/
 .pytype/
 cython_debug/
+database.ini
