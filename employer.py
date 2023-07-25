@@ -132,14 +132,12 @@ class Employer:
 
         return employers_inf
 
-    @property
     def employer_url(self) -> str:
         """
         Возвращает ссылку на страницу работадателя
         """
         return self.employer_url
 
-    @property
     def site_url(self) -> str:
         '''
         Возвращает ссылку на сайт работадателя
@@ -147,7 +145,6 @@ class Employer:
         '''
         return self.site_url
 
-    @property
     def vacancies_url(self) -> str:
         """
         Возвращает ссылку на список вакансий работадателя
