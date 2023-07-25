@@ -106,14 +106,12 @@ class DataBase:
         connection = self.connection
         connection.close()
 
-    @property
     def db_name(self):
         """
         Возвращает имя базы данных
         """
         return self.db_name
-
-    @property
+y
     def connection(self):
         """
         Возвращает строку подключения к созданой бд
