@@ -111,7 +111,7 @@ class DataBase:
         Возвращает имя базы данных
         """
         return self.db_name
-y
+
     def connection(self):
         """
         Возвращает строку подключения к созданой бд
