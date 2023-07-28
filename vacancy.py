@@ -1,8 +1,8 @@
 class Vacancy:
-    """
+    '''
     Класс вакансий работадателей с сайта
     https://hh.ru/
-    """
+    '''
 
     def __init__(
             self, name: str, description: str, area: str,
@@ -13,8 +13,8 @@ class Vacancy:
         self.name = name
         self.description = description
         self.area = area
-        self.salary_from = salary_from
-        self.salary_to = salary_to
+        self.__salary_from = salary_from
+        self.__salary_to = salary_to
         self.currency = currency
         self.experience = experience
         self.employment = employment
@@ -23,50 +23,54 @@ class Vacancy:
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}('{self.name}', '{self.description}', " \
-               f"'{self.area}', {self.salary_from}, " \
-               f"{self.salary_to}, '{self.currency}', '{self.experience}', " \
+               f"'{self.area}', {self.__salary_from}, " \
+               f"{self.__salary_to}, '{self.currency}', '{self.experience}', " \
                f"'{self.employment}', '{self.address}', '{self.url}')"
 
     def __str__(self) -> str:
         return f'Вакансия {self.name}'
 
-
+    @property
     def salary(self) -> int or None:
-        """
+        '''
         Возвращает среднюю зарплату вакансии
-        """
-        if (self.salary_from + self.salary_to) == 0:
+        :return: средняя зарплата
+        '''
+        if (self.__salary_from + self.__salary_to) == 0:
             return None
 
-        if self.salary_from == 0:
-            return self.salary_to
+        if self.__salary_from == 0:
+            return self.__salary_to
 
-        if self.salary_to == 0:
+        if self.__salary_to == 0:
             return self.salary_from
 
-        salary = int((self.salary_from + self.salary_to) / 2)
+        salary = int((self.__salary_from + self.__salary_to) / 2)
         return salary
 
-
+    @property
     def salary_from(self) -> int:
-        """
+        '''
         Возвращает минимальную зарплату вакансии
-        """
-        return self.salary_from
+        :return: минимальная зарплата вакансии
+        '''
+        return self.__salary_from
 
-
+    @property
     def salary_to(self) -> int:
-        """
+        '''
         Возвращает максимальную зарплату вакансии
-        """
-        return self.salary_to
+        :return: максимальная зарплата вакансии
+        '''
+        return self.__salary_to
 
-
+    @staticmethod
     def get_vacancies_inf(vacancies_list) -> list[list]:
-        """
+        '''
         Возвращает список, в котором содержатся
-        списки.
-        """
+        списки. Каждый содержит всю информацию о вакансии
+        :return: список списков с информацией о вакансиях
+        '''
         vacancies_inf_list = []
 
         for vacancy in vacancies_list:
@@ -80,8 +84,8 @@ class Vacancy:
                     vacancy.name,
                     vacancy.description,
                     vacancy.area,
-                    vacancy.salary_from,
-                    vacancy.salary_to,
+                    vacancy.__salary_from,
+                    vacancy.__salary_to,
                     vacancy.salary,
                     vacancy.currency,
                     vacancy.experience,

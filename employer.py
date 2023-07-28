@@ -16,9 +16,9 @@ class Employer:
         self.type = type
         self.area = area
         self.description = description
-        self.employer_url = employer_url
-        self.site_url = site_url
-        self.vacancies_url = vacancies_url
+        self.__employer_url = employer_url
+        self.__site_url = site_url
+        self.__vacancies_url = vacancies_url
         self.open_vacancies = open_vacancies
         self.vacancies_list = []
 
@@ -26,23 +26,23 @@ class Employer:
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}('{self.name}', '{self.type}', '{self.area}', " \
-               f"'{self.description}', '{self.employer_url}', '{self.site_url}', " \
-               f"'{self.vacancies_url}', {self.open_vacancies})"
+               f"'{self.description}', '{self.__employer_url}', '{self.__site_url}', " \
+               f"'{self.__vacancies_url}', {self.open_vacancies})"
 
     def __str__(self) -> str:
         return f'Работадатель {self.name}'
 
     def __get_vacancies(self) -> None:
-        """
+        '''
         Получает все вакансии работадателя, создавая на их основе
         объекты класса Vacancy с дальнейшим помещением их в
         список self.vacancies_list
-        """
+        '''
         page = 0
 
         # цикл перебирает все вакансии автора
         while True:
-            vacancies = requests.get(url=self.vacancies_url, params={'page': page, 'per_page': 100}).json()
+            vacancies = requests.get(url=self.__vacancies_url, params={'page': page, 'per_page': 100}).json()
 
             if page == 20 or len(vacancies['items']) == 0:
                 break
@@ -112,9 +112,11 @@ class Employer:
             page += 1
 
     def get_employer_inf(self) -> tuple:
-        """
-        Возвращает списком вся информация о работадателе
-        """
+        '''
+        Возвращает кортеж, в котором содержится
+        вся информация о работадателе
+        :return: кортеж с информацией о работадателе
+        '''
         # заменяет значение аттрибутов, содержащих в себе пустую строку, на None
         for attribute_name, attribute_value in vars(self).items():
             if attribute_value == '':
@@ -134,10 +136,11 @@ class Employer:
 
     @property
     def employer_url(self) -> str:
-        """
+        '''
         Возвращает ссылку на страницу работадателя
-        """
-        return self.employer_url
+        :return: self.__employer_url
+        '''
+        return self.__employer_url
 
     @property
     def site_url(self) -> str:
@@ -145,12 +148,13 @@ class Employer:
         Возвращает ссылку на сайт работадателя
         :return: self.__site_url
         '''
-        return self.site_url
+        return self.__site_url
 
     @property
     def vacancies_url(self) -> str:
-        """
+        '''
         Возвращает ссылку на список вакансий работадателя
         в формате JSON
-        """
-        return self.vacancies_url
+        :return: self.__vacancies_url
+        '''
+        return self.__vacancies_url

@@ -9,7 +9,7 @@ class HHAPI:
     """
 
     def __init__(self, employers_id_list: list) -> None:
-        self.api = 'https://api.hh.ru/'
+        self.__api = 'https://api.hh.ru/'
         self.employers_id_list = employers_id_list
 
     def __repr__(self) -> str:
@@ -19,13 +19,14 @@ class HHAPI:
         return 'API сайта https://hh.ru/'
 
     def get_employers(self) -> list:
-        """
+        '''
         Получает список работадателей, созданных
         на основе класса Employer
-        """
+        :return: список объектов класса Employer
+        '''
         employer_list = []
         for employer_id in self.employers_id_list:
-            response = requests.get(url=f'{self.api}employers/{employer_id}').json()
+            response = requests.get(url=f'{self.__api}employers/{employer_id}').json()
 
             try:
                 try:
