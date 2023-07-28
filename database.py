@@ -17,30 +17,30 @@ class DataBase:
         return cls.instance
 
     def __init__(self, db_name: str) -> None:
-        self.__db_name = db_name
-        self.__db_data = config()
-        self.__create_db()
+        self.db_name = db_name
+        self.db_data = config()
+        self.create_db()
 
-        self.__connection = psycopg2.connect(dbname=self.__db_name, **self.__db_data)
-        self.__create_tables()
+        self.connection = psycopg2.connect(dbname=self.db_name, **self.db_data)
+        self.create_tables()
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}('{self.__db_name}')"
+        return f"{self.__class__.__name__}('{self.db_name}')"
 
     def __str__(self) -> str:
-        return f'База данных {self.__db_name}'
+        return f'База данных {self.db_name}'
 
     def __create_db(self) -> None:
-        '''
-        Создаёт базу данных с переданным пользователем названием
-        '''
+        """
+        Создаёт базу данных
+        """
         try:
             # подключение к бд postgres
-            connection = psycopg2.connect(dbname='postgres', **self.__db_data)
+            connection = psycopg2.connect(dbname='postgres', **self.db_data)
             connection.autocommit = True
 
             with connection.cursor() as cursor:
-                cursor.execute(f'CREATE DATABASE {self.__db_name}')
+                cursor.execute(f'CREATE DATABASE {self.db_name}')
 
             connection.close()
         except psycopg2.errors.DuplicateDatabase:
@@ -49,12 +49,12 @@ class DataBase:
             connection.close()
 
     def __create_tables(self) -> None:
-        '''
+        """
         Заполняет созданнную бд таблицами, которые создаются в последствии
         выполнения кода из файла queries.sql
-        '''
+        """
         # подключение к созданной бд
-        connection = self.__connection
+        connection = self.connection
         filepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'queries.sql')
 
         with connection.cursor() as cursor:
@@ -67,12 +67,11 @@ class DataBase:
 
 
     def fill_data(self, employer_list: list) -> None:
-        '''
-        Заполняет созданные таблицы данными о работадателях
+        """
+        Вносит данные в таблицы о работадателях
         и их вакансиях
-        :param employer_list: список объектов класса Employer
-        '''
-        connection = self.__connection
+        """
+        connection = self.connection
         with connection.cursor() as cursor:
             for employer in employer_list:
                 cursor.execute(
@@ -100,25 +99,23 @@ class DataBase:
             connection.commit()
 
     def close_connection(self):
-        '''
+        """
         Закрывает соединение с базой данных
-        '''
-        connection = self.__connection
+        """
+
+        connection = self.connection
         connection.close()
 
     @property
     def db_name(self):
-        '''
+        """
         Возвращает имя базы данных
-        :return: имя базы данных
-        '''
-        return self.__db_name
+        """
+        return self.db_name
 
     @property
     def connection(self):
-        '''
+        """
         Возвращает строку подключения к созданой бд
-        (необходимо для менеджера баз данных)
-        :return: строку подключения
-        '''
-        return self.__connection
+        """
+        return self.connection
