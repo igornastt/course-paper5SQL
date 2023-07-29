@@ -6,9 +6,10 @@ from manager import DBManager
 
 
 def delete_db(database_name: str) -> None:
-    """
+    '''
     Удаляет базу данных по переданому имени
-    """
+    :param database_name: имя базы данных
+    '''
     connection = psycopg2.connect(dbname='postgres', **config())
     connection.autocommit = True
 
@@ -19,10 +20,13 @@ def delete_db(database_name: str) -> None:
 
 
 def create_db(database_name: str, employers_id_list: list) -> DataBase:
-    """
+    '''
     Создаёт базу данных на основе классе DataBase,
     заполняя её данными
-    """
+    :param database_name: имя базы данных
+    :param employers_id_list: список id работадателей
+    :return: база данных (object DataBase)
+    '''
     delete_db(database_name)
     api = HHAPI(employers_id_list)
     data_base = DataBase(database_name)
@@ -32,10 +36,14 @@ def create_db(database_name: str, employers_id_list: list) -> DataBase:
 
 
 def load_db(database_name: str, employers_id_list: list) -> DataBase:
-    """
+    '''
     Возвращает уже ране созданную базу данных с возможностью
-    сохранить переданные данные
-    """
+    сохранить переданные данные (можно отказаться, чтобы
+    избежать повторяющихся данных)
+    :param database_name: имя базы данных
+    :param employers_id_list: список id работадателей
+    :return: база данных (object DataBase)
+    '''
     api = HHAPI(employers_id_list)
     data_base = DataBase(database_name)
 
@@ -54,9 +62,12 @@ def load_db(database_name: str, employers_id_list: list) -> DataBase:
 
 
 def choose_bd(employers_id_list: list) -> DataBase:
-    """
-    Возвращает базу данных выбранного типа
-    """
+    '''
+    Возвращает базу данных выбранного типа (создать новую или
+    выбрать ту, которая уже создана)
+    :param employers_id_list: список id работадателей
+    :return: база данных (object DataBase)
+    '''
     while True:
         user_answer = input('Желаете создать новую бд (нет, если уже бд имеется)? (y/n) ')
         if user_answer.lower() == 'y':
@@ -75,11 +86,11 @@ def choose_bd(employers_id_list: list) -> DataBase:
 
 
 def menu(database: DataBase) -> None:
-    """
+    '''
     Запускает меню выбора действий, который совершаются
     над данными сохранёными в бд, с их дальнейшим
     отображением пользователю
-    """
+    '''
     while True:
         db_manager = DBManager(database)
         try:
